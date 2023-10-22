@@ -1,23 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useRef } from 'react';
+import "./App.css";
 
 function App() {
+  const txtArea = useRef(null);
+  const [isLocked, setIsLocked] = useState(false);
+
+  const handleCopy = () => {
+    txtArea.current.select();
+    document.execCommand('copy');
+    alert('Text has been copied to the clipboard');
+  };
+
+  const toggleLock = () => {
+    setIsLocked(!isLocked);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="container">
+      <textarea
+        ref={txtArea}
+        placeholder="Write your text here..."
+        disabled={isLocked}
+        
+      ></textarea>
+      <br />
+      <button className="button" onClick={handleCopy}>
+        Copy
+      </button>
+      <button className="button" onClick={() => {}}>
+        Save
+      </button>
+      <button className="button" onClick={toggleLock}>
+        {isLocked ? 'Unlock' : 'Lock'}
+      </button>
     </div>
   );
 }
